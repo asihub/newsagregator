@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -20,7 +21,7 @@ import java.time.LocalDateTime;
 @IdClass(Article.IdClass.class)
 public class Article implements Serializable {
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "source_id")
     private Source source;
     
@@ -38,7 +39,7 @@ public class Article implements Serializable {
     @Id
     private LocalDateTime publishedAt;
     
-    @Column(nullable = false)
+    @Column(nullable = false, length = 300)
     private String content;
     
     @Data
