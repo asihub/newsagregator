@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+/**
+ * Scheduled task for loading new articles from API sources 
+ */
 @Component
 public class ArticleLoader {
     
@@ -17,9 +20,8 @@ public class ArticleLoader {
     
     @Scheduled(fixedRate = 10000)
     public void loadArticles() {
-        log.info("test");
-        
+        log.info("Loading articles started...");        
         articleService.loadArticles();
-    }
-    
+        log.info("Loading articles finished");
+    }    
 }

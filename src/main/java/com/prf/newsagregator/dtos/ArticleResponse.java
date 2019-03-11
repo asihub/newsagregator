@@ -7,6 +7,9 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Response coming from news API sources
+ */
 public class ArticleResponse {    
     private String status;
     private String totalResults;
