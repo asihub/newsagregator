@@ -2,19 +2,26 @@ package com.prf.newsagregator.services;
 
 import com.prf.newsagregator.dtos.ArticleResponse;
 import com.prf.newsagregator.entities.Article;
+import com.prf.newsagregator.entities.Source;
 import com.prf.newsagregator.repositories.ArticleRepository;
 import com.prf.newsagregator.repositories.SourceRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
+/**
+ * Business logic articles
+ */
 @Service
 public class ArticleService {
     
-    private static final String URL_BBC = "https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=aa1eed5864ed4b09be2bae237cfd1db9";
+    private static final Logger log = LoggerFactory.getLogger(ArticleService.class);
     
     @Autowired
     RestTemplate client;
@@ -25,11 +32,26 @@ public class ArticleService {
     @Autowired
     SourceRepository sourceRepository;
     
-    public void loadArticles() {
-        ResponseEntity<ArticleResponse> articleResponse = client.getForEntity(URL_BBC, ArticleResponse.class);
-        
-        List<Article> articles = articleResponse.getBody().getArticles();
-        articleRepository.saveAll(articles);
+    /**
+     * Loads articles for a single source
+     * @param source of news articles
+     * @see database table source
+     */
+    @Transactional
+    public void loadArticlesBy(Source source) {
+        try {
+            log.info("Loading articles for the source: [id={}, name={}]", source.getId(), source.getName());
+            ResponseEntity<ArticleResponse> articleResponse = client.getForEntity(source.getUrl(), ArticleResponse.class);
+            List<Article> articles = articleResponse.getBody().getArticles();
+            articleRepository.saveAll(articles);
+        } catch (Exception e) {
+            log.error("Loading articles has been failed for [id={}, name={}] due to the following error:",
+                    source.getId(), source.getName());
+            e.printStackTrace();
+        }
     }
     
+    public void loadArticles() {
+        sourceRepository.findAll().forEach(this::loadArticlesBy);
+    }
 }

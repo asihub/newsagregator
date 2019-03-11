@@ -12,6 +12,9 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Entity which describes a source news article comes from
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,4 +30,7 @@ public class Source implements Serializable {
     
     @OneToMany
     private Set<Article> articles = new HashSet<>();
+    
+    @Column(length = 200, nullable = false)
+    private String url;
 }
