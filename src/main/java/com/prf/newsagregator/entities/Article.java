@@ -4,16 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+/**
+ * Core entity which describes an article for a piece of news
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,7 +22,6 @@ import java.time.LocalDateTime;
 @IdClass(Article.IdClass.class)
 public class Article implements Serializable {
     
-    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "source_id")
     private Source source;
     
@@ -32,14 +32,16 @@ public class Article implements Serializable {
     @Column(nullable = false)
     private String title;
     
+    @Column(length = 300)
     private String description;
+    
     private String url;
     private String urlToImage;
     
     @Id
     private LocalDateTime publishedAt;
     
-    @Column(nullable = false, length = 300)
+    @Column(length = 300)
     private String content;
     
     @Data
