@@ -18,7 +18,7 @@ public class ArticleLoader {
     @Autowired
     ArticleService articleService;
     
-    @Scheduled(fixedRate = 10000)
+    @Scheduled(fixedRate = 300000)
     public void loadArticles() {
         log.info("Loading articles started...");        
         articleService.loadArticles();

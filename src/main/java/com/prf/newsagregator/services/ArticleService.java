@@ -8,6 +8,8 @@ import com.prf.newsagregator.repositories.SourceRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -16,7 +18,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 /**
- * Business logic articles
+ * Business logic for articles
  */
 @Service
 public class ArticleService {
@@ -51,7 +53,19 @@ public class ArticleService {
         }
     }
     
+    /**
+     * Calls loadArticlesBy(Source source) for each news API resource
+     */
     public void loadArticles() {
         sourceRepository.findAll().forEach(this::loadArticlesBy);
+    }
+    
+    public Iterable<Article> findRecent() {
+        return articleRepository.findFirst10ByOrderByPublishedAtDesc();
+    }
+    
+    
+    public Page<Article> findPaginated(Pageable pageable) {
+        return articleRepository.findAll(pageable);
     }
 }
