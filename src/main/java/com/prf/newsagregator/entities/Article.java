@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -22,6 +23,7 @@ import java.time.LocalDateTime;
 @IdClass(Article.IdClass.class)
 public class Article implements Serializable {
     
+    @ManyToOne
     @JoinColumn(name = "source_id")
     private Source source;
     
