@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Controller for handling responses to Articles 
  */
 @RestController
-@RequestMapping("/article")
+@RequestMapping("/api/article")
 public class ArticleController {
     
     @Autowired

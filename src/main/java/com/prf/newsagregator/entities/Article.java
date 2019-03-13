@@ -27,7 +27,7 @@ public class Article implements Serializable {
     @JoinColumn(name = "source_id")
     private Source source;
     
-    @Column(length = 80)
+    @Column(length = 120)
     private String author;
     
     @Id
@@ -37,6 +37,7 @@ public class Article implements Serializable {
     @Column(length = 300)
     private String description;
     
+    @Column(length = 300)
     private String url;
     private String urlToImage;
     
