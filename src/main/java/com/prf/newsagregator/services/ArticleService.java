@@ -62,8 +62,7 @@ public class ArticleService {
     
     public Iterable<Article> findRecent() {
         return articleRepository.findFirst10ByOrderByPublishedAtDesc();
-    }
-    
+    }    
     
     public Page<Article> findPaginated(Pageable pageable) {
         return articleRepository.findAll(pageable);
