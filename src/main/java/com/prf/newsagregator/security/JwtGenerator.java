@@ -10,11 +10,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
+
 @Component
 public class JwtGenerator {
 
     @Value("${secret}")
     private String SECRET;
+    
+    @Value("${validity}")
+    private int VALIDITY;
 
     @Autowired
     UserRepository userRepository;
@@ -32,10 +37,20 @@ public class JwtGenerator {
         claims.put("userId", String.valueOf(jwtUser.getId()));
         claims.put("role", jwtUser.getRole());
         claims.put("password", jwtUser.getPassword());
+    
+        Date expireDate = getExpirationDate();
         
         return Jwts.builder()
                 .setClaims(claims)
+                .setExpiration(expireDate)
                 .signWith(SignatureAlgorithm.HS512, SECRET)
                 .compact();        
+    }
+    
+    private Date getExpirationDate() {
+        Date expireDate = new Date();
+        expireDate.setTime(expireDate.getTime() + VALIDITY);        
+    
+        return expireDate;
     }
 }

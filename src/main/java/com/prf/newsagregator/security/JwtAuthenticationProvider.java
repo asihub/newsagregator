@@ -32,7 +32,7 @@ public class JwtAuthenticationProvider extends AbstractUserDetailsAuthentication
         JwtUser jwtUser = validator.validate(token);
         
         if (jwtUser == null) {
-            throw new RuntimeException("JWT Token is wrong");
+            throw new RuntimeException("JWT Token is not valid or expired");
         }
     
         List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(jwtUser.getRole());
