@@ -7,4 +7,5 @@ public class JwtUser {
     private long id;
     private String username;
     private String role;
+    private String password;
 }
