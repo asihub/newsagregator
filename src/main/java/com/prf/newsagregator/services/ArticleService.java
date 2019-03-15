@@ -62,9 +62,19 @@ public class ArticleService {
     
     public Iterable<Article> findRecent() {
         return articleRepository.findFirst10ByOrderByPublishedAtDesc();
-    }    
+    }
     
     public Page<Article> findPaginated(Pageable pageable) {
         return articleRepository.findAll(pageable);
+    }
+    
+    @Transactional
+    public void deleteAll() {
+        articleRepository.deleteAll();
+    }
+    
+    @Transactional
+    public void deleteBySource(Source source) {
+        articleRepository.deleteBySource(source);
     }
 }
