@@ -1,6 +1,7 @@
 package com.prf.newsagregator.services;
 
 import com.prf.newsagregator.dtos.ArticleResponse;
+import com.prf.newsagregator.dtos.RecordsCountResponse;
 import com.prf.newsagregator.entities.Article;
 import com.prf.newsagregator.entities.Source;
 import com.prf.newsagregator.repositories.ArticleRepository;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -37,7 +40,6 @@ public class ArticleService {
     /**
      * Loads articles for a single source
      * @param source of news articles
-     * @see database table source
      */
     @Transactional
     public void loadArticlesBy(Source source) {
@@ -57,24 +59,42 @@ public class ArticleService {
      * Calls loadArticlesBy(Source source) for each news API resource
      */
     public void loadArticles() {
+        log.info("Searching all articles");
         sourceRepository.findAll().forEach(this::loadArticlesBy);
     }
     
+    /**
+     * Returns 10 most recent articles from all sources
+     */
     public Iterable<Article> findRecent() {
+        log.info("Searching last 10 recent articles");
         return articleRepository.findFirst10ByOrderByPublishedAtDesc();
     }
     
     public Page<Article> findPaginated(Pageable pageable) {
+        log.info("Searching specific page with articles [page = $s]", pageable.getPageNumber());
         return articleRepository.findAll(pageable);
     }
     
     @Transactional
     public void deleteAll() {
+        log.info("Deleting all articles");
         articleRepository.deleteAll();
     }
     
     @Transactional
     public void deleteBySource(Source source) {
+        log.info("Deleting article for a source [source = %s]", source.getId());
         articleRepository.deleteBySource(source);
+    }
+    
+    public Integer findRecentCount(int recentSeconds) {
+        log.info("Gathering statistic about recently loaded articles [recentSeconds = %s]", recentSeconds);
+        return articleRepository.findCountByCreateDateTimeAfter(LocalDateTime.now().minusSeconds(recentSeconds));
+    }    
+    
+    public Collection<RecordsCountResponse> findCountBySource() {
+        log.info("Gathering statistic about count of loaded articles per source");
+        return articleRepository.findCountBySource();
     }
 }

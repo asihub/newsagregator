@@ -3,6 +3,8 @@ package com.prf.newsagregator.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -46,6 +48,10 @@ public class Article implements Serializable {
     
     @Column(length = 300)
     private String content;
+    
+    @Column
+    @CreationTimestamp
+    private LocalDateTime createDateTime;    
     
     @Data
     static class IdClass implements Serializable {

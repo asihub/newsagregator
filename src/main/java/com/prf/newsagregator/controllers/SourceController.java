@@ -24,7 +24,7 @@ public class SourceController {
     SourceService sourceService;
     
     @GetMapping("/{id}")
-    public ResponseEntity<?> findByName(@PathVariable String id) {    
+    public ResponseEntity<?> findById(@PathVariable String id) {    
         Optional<Source> source = sourceService.findById(id);
                 
         if (!source.isPresent()) {
