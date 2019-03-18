@@ -72,7 +72,7 @@ public class ArticleService {
     }
     
     public Page<Article> findPaginated(Pageable pageable) {
-        log.info("Searching specific page with articles [page = $s]", pageable.getPageNumber());
+        log.info("Searching specific page with articles [page = {}]", pageable.getPageNumber());
         return articleRepository.findAll(pageable);
     }
     
@@ -84,12 +84,12 @@ public class ArticleService {
     
     @Transactional
     public void deleteBySource(Source source) {
-        log.info("Deleting article for a source [source = %s]", source.getId());
+        log.info("Deleting article for a source [source = {}]", source.getId());
         articleRepository.deleteBySource(source);
     }
     
     public Integer findRecentCount(int recentSeconds) {
-        log.info("Gathering statistic about recently loaded articles [recentSeconds = %s]", recentSeconds);
+        log.info("Gathering statistic about recently loaded articles [recentSeconds = {}]", recentSeconds);
         return articleRepository.findCountByCreateDateTimeAfter(LocalDateTime.now().minusSeconds(recentSeconds));
     }    
     

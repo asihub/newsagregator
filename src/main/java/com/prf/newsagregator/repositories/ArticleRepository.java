@@ -18,8 +18,8 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     
     void deleteBySource(Source source);
     
-    @Query("select count(a) from Article a where a.createDateTime >= :createDateTime")
-    Integer findCountByCreateDateTimeAfter(@Param("createDateTime") LocalDateTime createDateTime);
+    @Query("select count(a) from Article a where a.createDateTime >= :timeAfter")
+    Integer findCountByCreateDateTimeAfter(@Param("timeAfter") LocalDateTime timeAfter);
     
     @Query(value = "select source_id as fieldName, count(*) as recordsCount from article group by source_id", nativeQuery = true)
     Collection<RecordsCountResponse> findCountBySource();
