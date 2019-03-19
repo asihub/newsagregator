@@ -49,9 +49,13 @@ public class Article implements Serializable {
     @Column(length = 300)
     private String content;
     
-    @Column
+    @Column(nullable = false, updatable = false)
     @CreationTimestamp
-    private LocalDateTime createDateTime;    
+    private LocalDateTime createDateTime;  
+    
+    @Column(nullable = false)
+    @UpdateTimestamp
+    private LocalDateTime updateDateTime;   
     
     @Data
     static class IdClass implements Serializable {
