@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 /**
- * Controller for providing statistic info about articles
+ * Controller for providing statistics info about articles
  */
 @RestController
 @RequestMapping("/api/statistics")
