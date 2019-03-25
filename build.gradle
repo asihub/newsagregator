@@ -30,5 +30,5 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 	runtimeOnly "com.h2database:h2"
-	developmentOnly "org.springframework.boot:spring-boot-devtools"
+	runtimeOnly 'org.springframework.boot:spring-boot-devtools'
 }

@@ -9,10 +9,7 @@ import org.springframework.stereotype.Component;
 public class JwtValidator {
     
     @Value("${secret}")
-    private String SECRET;
-    
-    @Value("${secret}")
-    private String secret;
+    private String SECRET;    
     
     public JwtUser validate(String token) {
         
